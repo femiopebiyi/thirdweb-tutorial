@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
 pragma solidity ^0.8.9;
 
-contract TipJar {
+import {ContractMetadata} from "@thirdweb-dev/contracts/extension/ContractMetadata.sol";
+
+contract TipJar is ContractMetadata {
     address public owner;
 
     constructor() {
@@ -33,5 +35,15 @@ contract TipJar {
 
     function getBalance() public view returns (uint256) {
         return address(this).balance;
+    }
+
+    function _canSetContractURI()
+        internal
+        view
+        virtual
+        override
+        returns (bool)
+    {
+        return msg.sender == owner;
     }
 }
