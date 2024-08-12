@@ -1,10 +1,18 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
 pragma solidity ^0.8.8;
 
-contract ProfileStatus {
+import {ContractMetadata} from "@thirdweb-dev/contracts/extension/ContractMetadata.sol";
+
+contract ProfileStatus is ContractMetadata {
     struct Status {
         string statusMessage;
         bool exists;
+    }
+
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
     }
 
     mapping(address => Status) userStatus;
@@ -34,5 +42,15 @@ contract ProfileStatus {
 
         string memory currentStatus = userStatus[wallet].statusMessage;
         return currentStatus;
+    }
+
+    function _canSetContractURI()
+        internal
+        view
+        virtual
+        override
+        returns (bool)
+    {
+        return msg.sender == owner;
     }
 }
