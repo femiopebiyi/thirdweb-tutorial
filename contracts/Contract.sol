@@ -2,5 +2,13 @@
 pragma solidity ^0.8.9;
 
 contract MyContract {
-    constructor() {}
+    string public message;
+
+    constructor() {
+        message = "Hello World";
+    }
+
+    function getMessage() public view returns (string memory) {
+        return message;
+    }
 }
